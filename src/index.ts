@@ -1,4 +1,4 @@
-export { APIClient, StaticClient } from './client';
+export { APIClient } from './client';
 export { UserToggles } from './user_toggles';
 export { Toggle } from './toggle';
 

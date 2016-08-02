@@ -8,11 +8,12 @@ export class UserToggles {
   private initialLoadComplete: boolean;
   private toggleSelections: {[key: string]: string|boolean;};
 
-  constructor(private publicKey: string,
+  constructor(private host: string,
+              private publicKey: string,
               private userId: string,
               private version?: string,
               private anonymous?: boolean) {
-    this.client = new APIClient(new PublicAuthenticator(publicKey));
+    this.client = new APIClient(host, new PublicAuthenticator(publicKey));
   }
 
   load(): Promise<UserToggles> {

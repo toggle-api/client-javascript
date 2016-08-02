@@ -66,5 +66,5 @@ export class StaticClient implements Client {
 }
 
 export class APIClient extends StaticClient {
-  constructor(private authenticator: Authenticator) { super(); }
+  constructor(private host: string, private authenticator: Authenticator) { super(); }
 }
