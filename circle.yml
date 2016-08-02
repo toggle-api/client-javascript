@@ -10,7 +10,7 @@ test:
   pre:
   - npm run build
   override:
-  - 'true'
+  - npm run test
 
 deployment:
   npm:

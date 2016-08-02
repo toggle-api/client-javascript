@@ -16,6 +16,6 @@
     "tabSize": 2
   },
   "files": [
-    "src/toggle-api.ts"
+    "src/index.ts"
   ]
 }

@@ -28,3 +28,6 @@ toggle.waitForLoad().then(function () {
 
 ## Build
 This project can be built using: `npm run build`
+
+## Test
+This project can be tested using: `npm run test`
