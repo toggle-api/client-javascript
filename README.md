@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/toggle-api/javascript-client/tree/master.svg?style=svg)](https://circleci.com/gh/toggle-api/javascript-client/tree/master)
+
 # Javascript ToggleAPI Client
 A javascript client library for ToggleAPI.
 
@@ -12,7 +14,7 @@ All examples are in ES6.
 import { UserToggles } from 'toggle-api';
 
 // (credentials, user_id, app_version, anonymous)
-toggle = new UserToggle('server-api-key', 'userId', '2.0.1', false);
+toggle = new UserToggles('server-api-key', 'userId', '2.0.1', false);
 
 toggle.waitForLoad().then(function () {
     // (toggle_id, default_value)

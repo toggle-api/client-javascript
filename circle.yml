@@ -1,0 +1,21 @@
+machine:
+  node:
+    version: 6.3.1
+
+dependencies:
+  override:
+  - npm install --only=dev
+
+test:
+  pre:
+  - npm run build
+  override:
+  - 'true'
+
+deployment:
+  npm:
+    tag: /^v\d+\.\d+\.\d+-?[0-9A-Za-z-]*$/
+    owner: 'toggle-api'
+    commands:
+    - echo -e "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+    - npm publish dist/cjs
