@@ -1,6 +1,6 @@
 import md5 = require('crypto-js/md5');
 import encodeHex = require('crypto-js/enc-hex');
-import { SelectionMethod } from './selection_method';
+import { SelectionMethod } from './selection-method';
 
 export class MD5 implements SelectionMethod {
   constructor(private salt: string,

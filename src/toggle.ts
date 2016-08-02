@@ -1,5 +1,5 @@
-import { SelectionMethod } from './selection_methods/selection_method';
-import { MD5 } from './selection_methods/md5';
+import { SelectionMethod } from './selection-methods/selection-method';
+import { MD5 } from './selection-methods/md5';
 import * as SemVer from 'semver';
 
 export interface ToggleData {

@@ -1,12 +1,12 @@
 import { APIClient, Client } from './client';
 import { Toggle, ToggleSelection } from './toggle';
-import { PublicAuthenticator } from './authentication/public_authenticator';
+import { PublicAuthenticator } from './authentication/public-authenticator';
 
 export class UserToggles {
   private client: Client;
   private initialLoad: Promise<void>;
   private initialLoadComplete: boolean;
-  private toggleSelections: {[key: string]: string|boolean;};
+  private toggleSelections: { [key: string]: string|boolean; };
 
   constructor(private host: string,
               private publicKey: string,
