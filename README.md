@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/toggle-api/javascript-client/tree/master.svg?style=svg)](https://circleci.com/gh/toggle-api/javascript-client/tree/master)
+[![npm version](https://img.shields.io/npm/v/toggle-api.svg)](https://www.npmjs.com/package/toggle-api)
 
 # Javascript ToggleAPI Client
 A javascript client library for ToggleAPI.
