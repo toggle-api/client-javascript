@@ -18,7 +18,7 @@ export class Toggle implements ToggleData {
   Options: ToggleOptionData[];
 
   static CreateFromData(data: ToggleData) {
-    var instance = new this();
+    let instance = new Toggle();
     instance.Id = data.Id;
     instance.Description = data.Description;
     instance.SelectionAlgorithm = data.SelectionAlgorithm;
@@ -73,7 +73,7 @@ export class ToggleSelection implements ToggleSelectionData {
   OptionValue: string|boolean;
 
   static CreateFromData(data: ToggleSelectionData): ToggleSelection {
-    var instance = new this();
+    let instance = new ToggleSelection();
     instance.ToggleId = data.ToggleId;
     instance.OptionValue = data.OptionValue;
     return instance;

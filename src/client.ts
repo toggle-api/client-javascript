@@ -4,6 +4,8 @@ import { Toggle, ToggleSelection, ToggleSelectionData } from './toggle';
 export interface Client {
   getToggles(): Promise<Toggle[]>;
   getUserToggles(userId: string): Promise<ToggleSelection[]>;
+  createToggle(toggleId: string): Promise<Toggle>;
+  updateToggle(toggle: Toggle): Promise<Toggle>;
 }
 
 const TOGGLES = [
@@ -47,6 +49,19 @@ export class StaticClient implements Client {
 
   getUserToggles(userId: string): Promise<ToggleSelection[]> {
     return Promise.resolve(SELECTIONS.map(ToggleSelection.CreateFromData));
+  }
+
+  createToggle(toggleId: string): Promise<Toggle> {
+    let toggle = new Toggle();
+    toggle.Id = toggleId;
+    TOGGLES.push(Object.assign({}, toggle));
+    return Promise.resolve(toggle);
+  }
+
+  updateToggle(toggle: Toggle): Promise<Toggle> {
+    let id = TOGGLES.findIndex(t => t.Id === toggle.Id);
+    TOGGLES[id] = Object.assign({}, toggle);
+    return Promise.resolve(Toggle.CreateFromData(TOGGLES[id]));
   }
 }
 
