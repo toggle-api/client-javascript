@@ -1,0 +1,9 @@
+--require source-map-support/register
+
+--reporter dot
+--bail
+--full-trace
+--check-leaks
+
+--recursive
+--timeout 5000

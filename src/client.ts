@@ -1,14 +1,18 @@
 import { Authenticator } from './authentication/authentication';
-import { Toggle, ToggleSelection, ToggleSelectionData } from './toggle';
+import { Toggle } from './toggle';
+import { ToggleSelection, ToggleSelectionData } from './toggle-selection';
 
-export interface Client {
+export interface PublicClient {
   getToggles(): Promise<Toggle[]>;
   getUserToggles(userId: string): Promise<ToggleSelection[]>;
+}
+
+export interface Client extends PublicClient {
   createToggle(toggleId: string): Promise<Toggle>;
   updateToggle(toggle: Toggle): Promise<Toggle>;
 }
 
-const TOGGLES = [
+const TOGGLES: Array<any> = [
   {
     Id: 'my-toggle-1',
     Description: 'My first toggle, it is disabled',

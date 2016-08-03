@@ -1,9 +1,10 @@
-import { APIClient, Client } from './client';
-import { Toggle, ToggleSelection } from './toggle';
+import { APIClient, PublicClient } from './client';
+import { Toggle } from './toggle';
+import { ToggleSelection } from './toggle-selection';
 import { PublicAuthenticator } from './authentication/public-authenticator';
 
 export class UserToggles {
-  private client: Client;
+  private client: PublicClient;
   private initialLoad: Promise<void>;
   private initialLoadComplete: boolean;
   private toggleSelections: { [key: string]: string|boolean; };
@@ -11,30 +12,33 @@ export class UserToggles {
   constructor(private host: string,
               private publicKey: string,
               private userId: string,
-              private version?: string,
-              private anonymous?: boolean) {
+              private anonymous?: boolean,
+              private version?: string) {
     this.client = new APIClient(host, new PublicAuthenticator(publicKey));
   }
 
   load(): Promise<UserToggles> {
+    if (!this.initialLoad) {
+      this.loadToggles();
+    }
     return this.initialLoad.then(() => this);
   }
 
-  getToggle(id: string, defaultValue?: string): string {
+  getToggle(id: string, defaultValue?: boolean): boolean {
     if (this.initialLoadComplete) {
       let value = this.toggleSelections[id];
       if (value !== undefined) {
-        return value as string;
+        return value as boolean;
       }
     }
     return defaultValue;
   }
 
-  getTruthyToggle(id: string, defaultValue?: boolean): boolean {
+  getToggleFlag(id: string, defaultValue?: string): string {
     if (this.initialLoadComplete) {
       let value = this.toggleSelections[id];
       if (value !== undefined) {
-        return value as boolean;
+        return value as string;
       }
     }
     return defaultValue;

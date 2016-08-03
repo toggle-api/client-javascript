@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import * as toggleApi from '../dist/cjs/index';
+import * as toggleApi from '../src/index';
 
 describe('Root Module', () => {
   it('should contain exports from commonjs modules', () => {
