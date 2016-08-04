@@ -1,4 +1,4 @@
-export { APIClient } from './client';
+export { APIClient } from './clients/api-client';
 export { UserToggles } from './user-toggles';
 export { Toggle } from './toggle';
 

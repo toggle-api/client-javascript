@@ -1,4 +1,5 @@
-import { APIClient, PublicClient } from './client';
+import { PublicClient } from './clients/client';
+import { PublicAPIClient } from './clients/public-api-client';
 import { Toggle } from './toggle';
 import { ToggleSelection } from './toggle-selection';
 import { PublicAuthenticator } from './authentication/public-authenticator';
@@ -14,7 +15,7 @@ export class UserToggles {
               private userId: string,
               private anonymous?: boolean,
               private version?: string) {
-    this.client = new APIClient(host, new PublicAuthenticator(publicKey));
+    this.client = new PublicAPIClient(host, new PublicAuthenticator(publicKey));
   }
 
   load(): Promise<UserToggles> {

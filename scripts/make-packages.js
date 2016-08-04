@@ -18,5 +18,3 @@ function copyFile(from, to) {
 fs.writeFileSync('dist/package.json', JSON.stringify(distPkg, null, 2));
 copyFile('LICENSE.txt', 'dist/LICENSE.txt');
 copyFile('README.md', 'dist/README.md');
-
-mkdirp.sync('dist/bundles');
