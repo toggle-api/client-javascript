@@ -12,4 +12,4 @@ deployment:
     owner: 'toggle-api'
     commands:
     - echo -e "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
-    - npm publish dist/cjs
+    - npm publish dist

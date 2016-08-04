@@ -17,7 +17,7 @@ import { UserToggles } from 'toggle-api';
 // (host, credentials, user_id, [anonymous], [app_version])
 toggle = new UserToggles('http://api.toggleapi.com', 'server-api-key', 'userId', '2.0.1', false);
 
-toggle.waitForLoad().then(function () {
+toggle.load().then(function () {
     // (toggle_id, default_value)
     if (toggle.getToggle('my-toggle', false)) {
         console.log('Enabled!');
