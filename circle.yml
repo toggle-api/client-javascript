@@ -5,6 +5,7 @@ machine:
 test:
   pre:
   - npm run build
+  - echo "--reporter mocha-junit-reporter --reporter-options mochaFile=/$CIRCLE_TEST_REPORTS/node.xml" >> spec/mocha.opts
 
 deployment:
   npm:

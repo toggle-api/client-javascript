@@ -27,8 +27,10 @@
     "lint:src": "tslint -c tslint.json src/*.ts src/**/*.ts src/**/**/*.ts",
     "lint": "npm run lint:src && npm run lint:spec",
     "prepublish": "rm -rf ./typings && typings install && npm run build",
-    "test": "karma start karma.conf.js --single-run",
-    "test:watch": "karma start karma.conf.js"
+    "test": "concurrently --raw 'npm run test:mocha' 'npm run test:karma'",
+    "test:mocha": "tsc -p spec && cp spec/mocha.opts test/ && mocha && rm -r test",
+    "test:karma": "karma start karma.conf.js --single-run",
+    "test:karma:watch": "karma start karma.conf.js"
   },
   "dependencies": {
     "crypto-js": "^3.1.6",
@@ -46,6 +48,7 @@
     "karma-mocha": "^1.1.1",
     "karma-systemjs": "^0.14.0",
     "mocha": "^3.0.0",
+    "mocha-junit-reporter": "^1.11.1",
     "plugin-typescript": "^5.0.1",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",

@@ -61,7 +61,7 @@ module.exports = function(config) {
     },
     reporters: ['dots'].concat(extraReporters),
     junitReporter: {
-      outputDir: process.env.CIRCLE_TEST_REPORTS,
+      outputDir: process.env.CIRCLE_TEST_REPORTS
     },
     port: 9876,
     colors: true,
