@@ -37,3 +37,4 @@ function bundle(inFile, outFile) {
 }
 
 bundle('dist/index.js', 'dist/bundles/toggle-api.umd.js');
+bundle('dist/user-toggles.js', 'dist/bundles/user-toggles.umd.js');
