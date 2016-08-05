@@ -7,12 +7,12 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:toggle-api/javascript-client.git"
+    "url": "git@github.com:toggle-api/client-javascript.git"
   },
   "bugs": {
-    "url": "https://github.com/toggle-api/javascript-client/issues"
+    "url": "https://github.com/toggle-api/client-javascript/issues"
   },
-  "homepage": "https://github.com/toggle-api/javascript-client",
+  "homepage": "https://github.com/toggle-api/client-javascript",
   "scripts": {
     "postinstall": "typings install",
     "prebuild": "npm run clean:dist",
