@@ -1,7 +1,7 @@
 {
   "name": "toggle-api",
   "author": "Tyler Jones <tyler@squirly.ca>",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A client library for ToggleAPI.",
   "license": "MIT",
   "main": "index.js",
