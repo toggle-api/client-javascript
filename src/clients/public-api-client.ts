@@ -2,16 +2,17 @@ import { Authenticator } from '../authentication/authentication';
 import { Toggle } from '../toggle';
 import { ToggleSelection, ToggleSelectionData } from '../toggle-selection';
 import { PublicClient } from './client';
-import * as http_client from './http/client';
-import { NodeHTTPClient } from './http/node';
-import { BrowserHTTPClient } from './http/browser';
+import { HTTPClientConstructor } from './http/client';
 
-let HTTPClient: http_client.HTTPClient;
+import { BrowserHTTPClient } from './http/browser';
+import { NodeHTTPClient } from './http/node';
+
+export let HTTPClientFactory: HTTPClientConstructor;
 
 if (typeof window === 'undefined') {
-  HTTPClient = NodeHTTPClient;
+  HTTPClientFactory = NodeHTTPClient;
 } else {
-  HTTPClient = BrowserHTTPClient;
+  HTTPClientFactory = BrowserHTTPClient;
 }
 
 export const TOGGLES: Array<any> = [

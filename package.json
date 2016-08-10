@@ -15,6 +15,7 @@
   "homepage": "https://github.com/toggle-api/client-javascript",
   "scripts": {
     "postinstall": "typings install",
+    "typings": "typings",
     "prebuild": "npm run clean:dist",
     "build": "npm run build:cjs && concurrently 'npm run copy:src' 'npm run build:bundle' 'npm run generate_packages'",
     "build:cjs": "tsc typings/index.d.ts src/index.ts --sourceMap --outDir ./dist --diagnostics --pretty",
@@ -28,6 +29,7 @@
     "prepublish": "rm -rf ./typings && typings install && npm run build",
     "test": "concurrently --raw 'npm run test:mocha' 'npm run test:karma'",
     "test:mocha": "tsc -p spec && cp spec/mocha.opts test/ && mocha && rm -r test",
+    "test:mocha:watch": "tsc -p spec && cp spec/mocha.opts test/ && concurrently --raw 'mocha -w' 'tsc -w -p spec'",
     "test:karma": "karma start karma.conf.js --single-run",
     "test:karma:watch": "karma start karma.conf.js"
   },
@@ -38,6 +40,7 @@
   "devDependencies": {
     "browserify": "^13.1.0",
     "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
     "closurecompiler": "^1.6.0",
     "concurrently": "^2.2.0",
     "es6-module-loader": "^0.17.11",
