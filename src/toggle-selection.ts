@@ -1,11 +1,13 @@
+export type OptionValue = string | boolean;
+
 export interface ToggleSelectionData {
   ToggleId: string;
-  OptionValue: string|boolean;
+  OptionValue: OptionValue;
 }
 
 export class ToggleSelection implements ToggleSelectionData {
   ToggleId: string;
-  OptionValue: string|boolean;
+  OptionValue: OptionValue;
 
   static CreateFromData(data: ToggleSelectionData): ToggleSelection {
     let instance = new ToggleSelection();

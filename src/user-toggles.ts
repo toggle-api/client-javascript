@@ -1,14 +1,16 @@
 import { PublicClient } from './clients/client';
 import { PublicAPIClient } from './clients/public-api-client';
 import { Toggle } from './toggle';
-import { ToggleSelection } from './toggle-selection';
+import { ToggleSelection, OptionValue } from './toggle-selection';
 import { PublicAuthenticator } from './authentication/public-authenticator';
+
+type ToggleSelections = { [key: string]: OptionValue; }
 
 export class UserToggles {
   private client: PublicClient;
   private initialLoad: Promise<void>;
   private initialLoadComplete: boolean;
-  private toggleSelections: { [key: string]: string|boolean; };
+  private toggleSelections: ToggleSelections;
 
   constructor(private host: string,
               private publicKey: string,
@@ -25,7 +27,7 @@ export class UserToggles {
     return this.initialLoad.then(() => this);
   }
 
-  getToggle(id: string, defaultValue?: boolean): boolean {
+  getToggle(id: string, defaultValue: boolean): boolean {
     if (this.initialLoadComplete) {
       let value = this.toggleSelections[id];
       if (value !== undefined) {
@@ -35,7 +37,7 @@ export class UserToggles {
     return defaultValue;
   }
 
-  getToggleFlag(id: string, defaultValue?: string): string {
+  getToggleFlag(id: string, defaultValue: string): string {
     if (this.initialLoadComplete) {
       let value = this.toggleSelections[id];
       if (value !== undefined) {
@@ -52,7 +54,7 @@ export class UserToggles {
     this.initialLoad = Promise.all<Array<any>>([togglesQ, userTogglesQ]).then<void>((responses: Array<any>) => {
       let toggles: Toggle[] = responses[0];
       let selections: ToggleSelection[] = responses[1];
-      let toggleSelections: { [key: string]: string | boolean; } = {};
+      let toggleSelections: ToggleSelections = {};
 
       selections.forEach((selection: ToggleSelection) => {
         toggleSelections[selection.ToggleId] = selection.OptionValue;
@@ -60,7 +62,9 @@ export class UserToggles {
 
       toggles.forEach((toggle: Toggle) => {
         if (toggleSelections[toggle.Id] === undefined) {
-          toggleSelections[toggle.Id] = toggle.getOption(this.userId, undefined, this.version);
+          if (toggle.canSelect(this.version)) {
+            toggleSelections[toggle.Id] = toggle.getOption(this.userId, false, this.version);
+          }
         }
       });
 

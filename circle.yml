@@ -2,9 +2,13 @@ machine:
   node:
     version: 6.3.1
 
+dependencies:
+  post:
+  - npm install mocha-junit-reporter karma-junit-reporter
+
 test:
   pre:
-  - echo "--reporter mocha-junit-reporter --reporter-options mochaFile=/$CIRCLE_TEST_REPORTS/node.xml" >> spec/mocha.opts
+  - echo "--reporter mocha-junit-reporter --reporter-options mochaFile=/$CIRCLE_TEST_REPORTS/node.xml" >> test/mocha.opts
 
 deployment:
   npm:

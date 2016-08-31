@@ -3,13 +3,13 @@ import { BrowserHTTPClient } from '../../../src/clients/http/browser';
 
 describe('BrowserHTTPClient', () => {
   let client: BrowserHTTPClient;
-  let method: string;
-  let url: string;
-  let sendData: string;
+  let method: string | undefined;
+  let url: string | undefined;
+  let sendData: string | undefined;
   let headers: {[key: string]: string};
   let status: number;
   let error: any;
-  let responseText: string;
+  let responseText: string | undefined;
 
   beforeEach(() => {
     method = undefined;
@@ -24,19 +24,19 @@ describe('BrowserHTTPClient', () => {
     client = new BrowserHTTPClient('http://example.com/');
     client['Request'] = <any>function () {
       return {
-        open: function (m, u) {
+        open: function (m: string, u: string) {
           method = m;
           url = u;
         },
-        setRequestHeader: function (name, value) {
+        setRequestHeader: function (name: string, value: string) {
           headers[name] = value;
         },
-        send: function (data) {
+        send: function (data: string) {
           sendData = data;
-          this.readyState = 1;
+          this.readyState = client['Request'].DONE;
           this.status = status;
           this.responseText = responseText;
-          if (error) {
+          if (error !== undefined) {
             this.statusText = error;
             setTimeout(this.onerror);
           } else {
@@ -45,13 +45,13 @@ describe('BrowserHTTPClient', () => {
         }
       };
     };
-    client['Request'].DONE = 1;
   });
 
   it('parses the response', () => {
     responseText = '{"test":"data"}';
 
-    return expect(client['makeRequest']('GET', 'path')).to.eventually.eql({test: 'data'});
+    return expect(client['makeRequest']('GET', 'path')).to.be.fulfilled.
+      and.eventually.eql({test: 'data'});
   });
 
   it('sends the method', () => {

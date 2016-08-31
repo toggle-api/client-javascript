@@ -9,12 +9,12 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['systemjs', 'mocha'],
     files: [
-      'spec/setup.ts',
-      'spec/*-spec.ts',
-      'spec/**/*-spec.ts'
+      'test/setup.ts',
+      'test/*-spec.ts',
+      'test/**/*-spec.ts'
     ],
-    ignoreFiles: [
-      'spec/clients/http/node.ts'
+    exclude: [
+      'test/clients/http/node-spec.ts'
     ],
     systemjs: {
       serveFiles: [
@@ -33,7 +33,7 @@ module.exports = function(config) {
         // code
         'tsconfig.json',
         'src/**/*.ts',
-        'spec/**/!(*-spec.ts)'
+        'test/**/!(*-spec.ts)'
       ],
       config: {
         transpiler: 'plugin-typescript',

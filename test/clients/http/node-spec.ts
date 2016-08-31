@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { NodeHTTPClient } from '../../../src/clients/http/node';
 import * as http from 'http';
 import * as https from 'https';
+import { IncomingMessage } from 'http';
 
 describe('NodeHTTPClient', () => {
   describe('constructor', () => {
@@ -27,48 +28,48 @@ describe('NodeHTTPClient', () => {
 
   describe('makeRequest', () => {
     let client: NodeHTTPClient;
-    let chunks: Array<string>;
-    let error: any;
+    let chunks: Array<string> | undefined;
+    let error: any | undefined;
     let options: http.RequestOptions;
-    let encoding: string;
-    let writeData: string;
-    let statusCode: number;
+    let encoding: string | undefined;
+    let writeData: string | undefined;
+    let statusCode: number | undefined;
 
     beforeEach(() => {
       client = new NodeHTTPClient('http://example.com/');
       chunks = undefined;
       error = undefined;
-      options = undefined;
+      options = {};
       encoding = undefined;
       writeData = undefined;
       statusCode = 200;
-      client['adapter'] = <typeof http>{request: function (opts, cb) {
+      client['adapter'] = <typeof http>{request: function (opts: http.RequestOptions, cb: Function) {
         options = opts;
-        let response_events = {data: [], end: []};
-        let request_events = {error: []};
+        let response_events: any = {data: [], end: []};
+        let request_events: any = {error: []};
         cb(<any>{
           statusCode: statusCode,
-          on: function (event_name, cb) {
+          on: function (event_name: string, cb: Function) {
             response_events[event_name].push(cb);
           },
-          setEncoding: function (e) {
+          setEncoding: function (e: string) {
             encoding = e;
           }
         });
         return {
-          on: function (event_name, cb) {
+          on: function (event_name: string, cb: Function) {
             request_events[event_name].push(cb);
           },
-          write: function (d) {
+          write: function (d: string) {
             writeData = d;
           },
           end: function () {
             setTimeout(() => {
-              if (chunks) {
-                response_events.data.map((f) => chunks.map(f));
-                response_events.end.forEach((cb) => cb());
+              if (chunks !== undefined) {
+                response_events.data.map(chunks.map.bind(chunks));
+                response_events.end.forEach((cb: Function) => cb());
               } else if (error) {
-                request_events.error.map((cb) => cb(error));
+                request_events.error.map((cb: Function) => cb(error));
               } else {
                 throw new Error('Test must provide chunks or error');
               }
@@ -107,13 +108,12 @@ describe('NodeHTTPClient', () => {
         host: 'example.com',
       };
       client['buildRequestOptions'] = function (method, url) {
-        return {test: 'options', method, url, headers: {}};
+        return {method, host: url, headers: {}};
       };
       client['makeRequest']('GET', 'url');
 
-      expect(options['test']).to.equal('options');
       expect(options.method).to.equal('GET');
-      expect(options['url']).to.equal('url');
+      expect(options.host).to.equal('url');
     });
 
     describe('with body', () => {
@@ -121,14 +121,14 @@ describe('NodeHTTPClient', () => {
         chunks = ['{}'];
         return expect(client['makeRequest']('GET', 'url', { test: 'data' })).to.be.fulfilled.
           then(() => {
-            expect(options.headers['Content-Length']).to.equal(15);
+            expect(options.headers!['Content-Length']).to.equal(15);
           });
       });
       it('sets the Content-Type header', () => {
         chunks = ['{}'];
         return expect(client['makeRequest']('GET', 'url', {test: 'data'})).to.be.fulfilled.
           then(() => {
-            expect(options.headers['Content-Type']).to.equal('application/json');
+            expect(options.headers!['Content-Type']).to.equal('application/json');
           });
       });
     });
@@ -138,7 +138,7 @@ describe('NodeHTTPClient', () => {
         chunks = ['{}'];
         return expect(client['makeRequest']('GET', 'url')).to.be.fulfilled.
           then(() => {
-            expect(options.headers['Content-Length']).to.be.undefined;
+            expect(options.headers!['Content-Length']).to.be.undefined;
           });
       });
 
@@ -146,7 +146,7 @@ describe('NodeHTTPClient', () => {
         chunks = ['{}'];
         return expect(client['makeRequest']('GET', 'url')).to.be.fulfilled.
           then(() => {
-            expect(options.headers['Content-Type']).to.be.undefined;
+            expect(options.headers!['Content-Type']).to.be.undefined;
           });
       });
     });
@@ -169,7 +169,7 @@ describe('NodeHTTPClient', () => {
 
     it.skip('rejects on network error', () => {
       error = 'Network error';
-      return expect(client['makeRequest']('POST', 'url', {my: 'awesome', json: 'data'})).to.eventually.be.rejected.and.eventually.equal('Network error');
+      return expect(client['makeRequest']('POST', 'url', {my: 'awesome', json: 'data'})).to.be.rejected.and.eventually.equal('Network error');
     });
 
     it('writes body data', () => {
@@ -222,7 +222,7 @@ describe('NodeHTTPClient', () => {
       let client = new NodeHTTPClient('http://test.example.com/abc/');
       let options = client['buildRequestOptions']('GET', 'uri1');
 
-      expect(options.headers['Accept']).to.equal('application/json');
+      expect(options.headers!['Accept']).to.equal('application/json');
     });
   });
 
@@ -232,7 +232,7 @@ describe('NodeHTTPClient', () => {
 
       let events: any = {};
       let response = {
-        on: function (event_name, cb) {
+        on: function (event_name: string, cb: Function) {
           events[event_name] = cb;
         }
       };
@@ -240,7 +240,7 @@ describe('NodeHTTPClient', () => {
         ['{"test', '":', '"data"', '}'].map(events.data);
         events.end();
       });
-      return client['combineResponseBody'](response).then((data) => {
+      return client['combineResponseBody'](response as IncomingMessage).then((data: any) => {
         expect(data).to.eql({test: 'data'});
       });
     });

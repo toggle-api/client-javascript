@@ -1,0 +1,11 @@
+--require ts-node/register
+--watch-extensions ts
+
+--reporter dot
+--full-trace
+--check-leaks
+
+--recursive
+--timeout 100
+test/setup.ts
+test/**/*-spec.ts

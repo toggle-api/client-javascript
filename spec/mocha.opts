@@ -1,6 +1,0 @@
---reporter dot
---full-trace
---check-leaks
-
---recursive
---timeout 5000

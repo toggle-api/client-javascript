@@ -8,7 +8,7 @@ export interface HTTPClientConstructor {
   new(baseUrl: string): HTTPClient;
 }
 
-const GET = 'GET', POST = 'POST', DELETE = 'DELETE';
+export const GET = 'GET', POST = 'POST', DELETE = 'DELETE';
 
 type Json = { [key: string]: any; };
 

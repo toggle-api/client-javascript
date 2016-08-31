@@ -10,8 +10,8 @@ describe('Toggle', () => {
       EnableInVersions: '>2.0.3',
       SelectionAlgorithm: 'md5:asd,1000',
       Options: [
-        {},
-        {}
+        {Value: false, Cutoff: 0.5},
+        {Value: true, Cutoff: 1}
       ]
     });
     expect(toggle.Id).to.equal('my-id');
@@ -27,8 +27,8 @@ describe('Toggle', () => {
       toggle.SelectionAlgorithm = 'md5:my_salt,12345';
       let selection_algorithm = toggle.getSelectionAlgorithm();
       expect(selection_algorithm).to.be.instanceOf(MD5);
-      expect(selection_algorithm['salt']).to.equal('my_salt');
-      expect(selection_algorithm['int']).to.equal(12345);
+      expect(selection_algorithm!['salt']).to.equal('my_salt');
+      expect(selection_algorithm!['int']).to.equal(12345);
     });
 
     it('is undefined with unknown algorithm', () => {
@@ -38,10 +38,10 @@ describe('Toggle', () => {
   });
 
   describe('getOption', () => {
-    let toggle;
+    let toggle: Toggle;
     beforeEach(() => {
       toggle = new Toggle();
-      toggle.getSelection = (a, b) => { return true; };
+      toggle.getSelection = (a: any, b: any) => { return true; };
     });
     it('ignores version if no version is passed', () => {
       toggle.EnableInVersions = '>1.0.3';
@@ -62,7 +62,7 @@ describe('Toggle', () => {
   });
 
   describe('getSelection', () => {
-    let toggle;
+    let toggle: Toggle;
 
     function mockSelection(value: number) {
       toggle.getSelectionAlgorithm = () => { return { CalculateSelection: () => value }; };
