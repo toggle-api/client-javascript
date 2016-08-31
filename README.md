@@ -15,7 +15,7 @@ All examples are in ES6.
 import { UserToggles } from 'toggle-api';
 
 // (host, credentials, user_id, [anonymous], [app_version])
-toggle = new UserToggles('http://api.toggleapi.com', 'server-api-key', 'userId', '2.0.1', false);
+toggle = new UserToggles('http://api.toggleapi.com', 'server-api-key', 'userId', false, '2.0.1');
 
 toggle.load().then(() => {
     // (toggle_id, default_value)
